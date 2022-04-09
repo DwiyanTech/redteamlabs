@@ -1,4 +1,4 @@
-# Mittre ATT&CK T1573.002
+# Mitre ATT&CK T1573.002
 ## Command And Control using Trello
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
