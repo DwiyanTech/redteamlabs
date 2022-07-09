@@ -52,7 +52,7 @@ func getPortNumbers(start_number int, last_number int) []int{
 
 func getAllOpenedPorts(host string) []string {
 	var allopenedports []string
-        all_port := get_port_numbers(0,65535)
+        all_port := getPortNumbers(0,65535)
         for _ , x:= range all_port {
                 conn, _:= tcpConnect(host,strconv.Itoa(x))
         if conn != nil {
