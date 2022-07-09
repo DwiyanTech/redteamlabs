@@ -12,19 +12,19 @@ import (
 func PrintWarnMessage(msg string){
         dt := time.Now()
         formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [WARNING] "
-        fmt.Fprintln(formatMessage+msg)
+        fmt.Printf(formatMessage+msg+"\n")
 } 
 
 func PrintErrorMessage(msg string){
 	dt := time.Now()
 	formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [ERROR] "
-	fmt.Fprintln(formatMessage+msg)
+	fmt.Printf(formatMessage+msg+"\n")
 }
 
 func PrintMessage(msg string) {
         dt := time.Now()
         formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [INFO] "
-        fmt.Fprintln(formatMessage+msg)
+        fmt.Printf(formatMessage+msg+"\n")
 }
 
 func MessageOnError(e error) {
