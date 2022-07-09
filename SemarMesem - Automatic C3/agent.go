@@ -33,7 +33,7 @@ func MessageOnError(e error) {
         }
 }
 
-func tcp_connect(host string,port string) (net.Conn, error) {
+func tcpConnect(host string,port string) (net.Conn, error) {
     timeoutSecond := 10 * time.Second // Default Timeout Change if Need 
     conn , err := net.DialTimeout("tcp",net.JoinHostPort(host,port),timeoutSecond)
         if err != nil {
@@ -54,7 +54,7 @@ func getAllOpenedPorts(host string) []string {
 	var allopenedports []string
         all_port := get_port_numbers(0,65535)
         for _ , x:= range all_port {
-                conn, _:= tcp_connect(host,strconv.Itoa(x))
+                conn, _:= tcpConnect(host,strconv.Itoa(x))
         if conn != nil {
                   defer conn.Close()
           PrintMessage("Local Opened Ports "+conn.RemoteAddr().String())
@@ -125,5 +125,5 @@ func runReconnaisance() {
 }
 
 func main(){
-	runReconnaisance()
+  runReconnaisance()
 }
