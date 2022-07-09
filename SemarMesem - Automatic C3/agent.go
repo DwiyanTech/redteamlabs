@@ -1,4 +1,4 @@
-package semarmesem
+package main
 
 import (
         "net"
