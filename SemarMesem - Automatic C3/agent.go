@@ -56,7 +56,7 @@ func getAllOpenedPorts(host string) []string {
         for _ , x:= range all_port {
                 conn, _:= tcpConnect(host,strconv.Itoa(x))
         if conn != nil {
-                  defer conn.Close()
+          defer conn.Close()
           PrintMessage("Local Opened Ports "+conn.RemoteAddr().String())
    	  append(allopenedports,conn.RemoteAddr().String())
 	}
@@ -96,6 +96,10 @@ func runReconnaisance() {
 	PrintMessage("Getting Local Open Ports...")
 
 	allopenports := getAllOpenedPorts(cf.GetLocalIp())
+	
+	if allopenports != nil {
+		PrintMessage("There's no Opened Ports")
+	}
 
 	if len(allopenports) > 0 {
 
@@ -104,7 +108,7 @@ func runReconnaisance() {
 		}
 
 	} else {
-		PrintMessage("There's no opened ports")
+		PrintMessage("There's no opened Ports")
 	}
 
 	PrintMessage("Checking Discover IPs...")
@@ -114,13 +118,17 @@ func runReconnaisance() {
 	if err != nil {
 		PrintErrorMessage("Error when Discover Ips")
 	}
+	
+	if discoveredIps != nil {
+		PrintMessage("Not Discoverd IPs Host")
+	}	
 
 	if len(discoveredIps) > 0 {
+
 		for _, x := range discoveredIps {
 			PrintMessage("Discover IPs "+x)
 		}
-	} else {
-		PrintMessage("Not Discovered Ips Host")
+
 	}	 				
 }
 
