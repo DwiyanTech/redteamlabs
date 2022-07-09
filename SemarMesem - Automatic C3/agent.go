@@ -45,23 +45,25 @@ func tcpConnect(host string,port string) (net.Conn, error) {
 func getPortNumbers(start_number int, last_number int) []int{
         var list_allport []int
         for port := start_number; port <= last_number; port++{
-      list_allport = append(list_allport,port)
+        list_allport = append(list_allport,port)
         }
         return list_allport
 }
 
 func getAllOpenedPorts(host string) []string {
 	
-	allopenedports := []string{}	
-	all_port := getPortNumbers(0, 65535)
-        for _ , x:= range all_port {
-                conn, _:= tcpConnect(host,strconv.Itoa(x))
+ var allopenedports []string	
+ all_port := getPortNumbers(0, 65535)
+
+ for _ , x:= range all_port {
+      
+    conn, _:= tcpConnect(host,strconv.Itoa(x))
 
         if conn != nil {
 
           defer conn.Close()
           PrintMessage("Local Opened Ports "+conn.RemoteAddr().String())
-   	  append(allopenedports,conn.RemoteAddr().String())
+   	  allopenedports = append(allopenedports,conn.RemoteAddr().String())
 
 	}
    }
@@ -69,9 +71,10 @@ func getAllOpenedPorts(host string) []string {
 }
 
 
-func getAllDiscoveredIp() ([]string, error)  {
+func getAllDiscoveredIp() ([]string, error)  {  
+  var allDiscoverIps []string
   scanner := ps.PingScanner{CIDR:cf.GetLocalIp()+"/24",PingOptions: []string{"-c1"},NumOfConcurrency:50}
-  allDiscoverIps := []string{}  
+
   discoverIps, err := scanner.Scan()
 
   if err != nil {
@@ -81,7 +84,7 @@ func getAllDiscoveredIp() ([]string, error)  {
 
   if len(discoverIps) > 0{
       for _, ip := range discoverIps {
-	append(allDiscoverIps,ip)
+	allDiscoverIps = append(allDiscoverIps,ip)
 	}
   }
    return allDiscoverIps,nil 
