@@ -120,7 +120,7 @@ func runReconnaisance() {
 			PrintMessage("Discover IPs "+x)
 		}
 	} else {
-		PrintErrorMessage("Not Discovered Ips Host")
+		PrintMessage("Not Discovered Ips Host")
 	}	 				
 }
 
