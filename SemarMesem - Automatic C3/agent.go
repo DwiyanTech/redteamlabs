@@ -15,6 +15,12 @@ func PrintWarnMessage(msg string){
         fmt.Printf(formatMessage+msg+"\n")
 } 
 
+func PrintMessageResult(msg string){
+        dt := time.Now()
+        formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [RESULT] "
+        fmt.Printf(formatMessage+msg+"\n")
+}
+
 func PrintErrorMessage(msg string){
 	dt := time.Now()
 	formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [ERROR] "
@@ -95,9 +101,9 @@ func runReconnaisance() {
 	PrintMessage("Checking Administration Privilleges...")
 
 	if cf.IsRoot() {
-		PrintMessage("Your Privillege is Administration Privilleges")
+		PrintMessageResult("Your Privillege is Administration Privilleges")
 	} else {
-		PrintMessage("Your Privillege is not Administration Privilleges")
+		PrintMessageResult("Your Privillege is not Administration Privilleges")
 	}
 	
 	PrintMessage("Getting Local Open Ports...")
@@ -105,17 +111,17 @@ func runReconnaisance() {
 	allopenports := getAllOpenedPorts(cf.GetLocalIp())
 	
 	if allopenports != nil {
-		PrintMessage("There's no Opened Ports")
+		PrintMessageResult("There's no Opened Ports")
 	}
 
 	if len(allopenports) > 0 {
 
 		for _, x := range allopenports {
-			PrintMessage("Opened Ports: "+x)
+			PrintMessageResult("Opened Ports: "+x)
 		}
 
 	} else {
-		PrintMessage("There's no opened Ports")
+		PrintMessageResult("There's no opened Ports")
 	}
 
 	PrintMessage("Checking Discover IPs...")
@@ -127,17 +133,17 @@ func runReconnaisance() {
 	}
 	
 	if discoveredIps != nil {
-		PrintMessage("Not Discoverd IPs Host")
+		PrintMessageResult("Not Discoverd IPs Host")
 	}	
 
 	if len(discoveredIps) > 0 {
 
 		for _, x := range discoveredIps {
-			PrintMessage("Discover IPs "+x)
+			PrintMessageResult("Discover IPs "+x)
 		}
 
 	} else {
-		PrintMessage("There's no Disovered IPs")
+		PrintMessageResult("There's no Disovered IPs")
 	}	 				
 }
 
