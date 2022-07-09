@@ -136,6 +136,8 @@ func runReconnaisance() {
 			PrintMessage("Discover IPs "+x)
 		}
 
+	} else {
+		PrintMessage("There's no Disovered IPs")
 	}	 				
 }
 
