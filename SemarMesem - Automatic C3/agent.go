@@ -51,12 +51,9 @@ func getPortNumbers(start_number int, last_number int) []int{
 }
 
 func getAllOpenedPorts(host string) []string {
-	var allopenedports []string
-  
-        allopenedports = []string{}
-
-	all_port := getPortNumbers(0,65535)
-
+	
+	allopenedports := []string{}	
+	all_port := getPortNumbers(0, 65535)
         for _ , x:= range all_port {
                 conn, _:= tcpConnect(host,strconv.Itoa(x))
 
@@ -73,12 +70,8 @@ func getAllOpenedPorts(host string) []string {
 
 
 func getAllDiscoveredIp() ([]string, error)  {
-  var allDiscoverIps []string
-
-  allDiscoverIps = []string{}
-  
   scanner := ps.PingScanner{CIDR:cf.GetLocalIp()+"/24",PingOptions: []string{"-c1"},NumOfConcurrency:50}
-  
+  allDiscoverIps := []string{}  
   discoverIps, err := scanner.Scan()
 
   if err != nil {
