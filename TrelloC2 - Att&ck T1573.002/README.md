@@ -8,22 +8,22 @@ This script utilise Trello API as Command And Control to Avoid IPS/IDS and EDR.
 ## Get Started
 -- Python Version
 - Change TRELLO_APIKEY,TRELLO_APITOKEN and IDLIST Trello with your own
-```
+```python
 TRELLO_APIKEY = XXX
 TRELLO_APITOKEN = XXX
 TRELLO_IDLIST = XXX
 ```
 - Run Agent on Compromised Host
-```
+```bash
 python3 agent.py
 ```
 - Change TRELLO_APIKEY and TRELLO_APITOKEN with your own
-```
+```python
 TRELLO_APIKEY = XXX
 TRELLO_APITOKEN = XXX
 ```
 - Run Central Command to Control Compromised Host
-```
+```bash
 python3 central_command.py
 ```
 

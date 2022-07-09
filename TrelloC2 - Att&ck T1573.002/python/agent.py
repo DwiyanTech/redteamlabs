@@ -9,8 +9,10 @@ import time
 TRELLO_IDLIST = "XXX"
 TRELLO_APIKEY = "XXX"
 TRELLO_APITOKEN = "XXX"
-BEACON_INTERVAL =  # Create Interval For Evading Massive Detection Request
+BEACON_INTERVAL =  "XXX" # Create Interval For Evading Massive Detection Request
+
 # Trello URL Format
+
 def trello_urlformatting(url_request):
 	API_URL = f"https://api.trello.com/1/{url_request}?key={TRELLO_APIKEY}&token={TRELLO_APITOKEN}"
 	return API_URL

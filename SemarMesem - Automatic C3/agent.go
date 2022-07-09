@@ -9,15 +9,22 @@ import (
         ps "github.com/kotakanbe/go-pingscanner"
 )
 
-func sendMessageToSlack(msg string){
+func PrintWarnMessage(msg string){
+        dt := time.Now()
+        formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [WARNING] "
+        fmt.Printf(formatMessage+msg)
+} 
 
-
+func PrintErrorMessage(msg string){
+	dt := time.Now()
+	formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [ERROR] "
+	fmt.Printf(formatMessage+msg)
 }
 
 func PrintMessage(msg string) {
         dt := time.Now()
-        t := dt.Format("15:30")
-        fmt.Printf("[%s] [SemarMesemC3] [INFO] %s \n", t, msg)
+        formatMessage := "["+dt.Format(time.UnixDate)+"] [SemarMesemC3] [INFO] "
+        fmt.Printf(formatMessage+msg)
 }
 
 func MessageOnError(e error) {
@@ -27,7 +34,7 @@ func MessageOnError(e error) {
 }
 
 func tcp_connect(host string,port string) (net.Conn, error) {
-    timeoutSecond := 10 * time.Second
+    timeoutSecond := 10 * time.Second // Default Timeout Change if Need 
     conn , err := net.DialTimeout("tcp",net.JoinHostPort(host,port),timeoutSecond)
         if err != nil {
                 return nil,err
@@ -35,56 +42,88 @@ func tcp_connect(host string,port string) (net.Conn, error) {
     return conn,nil
 }
 
-func get_port_numbers(start_number int, last_number int) []int{
+func getPortNumbers(start_number int, last_number int) []int{
         var list_allport []int
-
         for port := start_number; port <= last_number; port++{
       list_allport = append(list_allport,port)
         }
         return list_allport
 }
 
-func getall_openedports(host string) {
-
+func getAllOpenedPorts(host string) []string {
+	var allopenedports []string
         all_port := get_port_numbers(0,65535)
         for _ , x:= range all_port {
                 conn, _:= tcp_connect(host,strconv.Itoa(x))
         if conn != nil {
                   defer conn.Close()
           PrintMessage("Local Opened Ports "+conn.RemoteAddr().String())
-                }
-        }
+   	  append(allopenedports,conn.RemoteAddr().String())
+	}
+   }
+	return allopenedports
 }
 
 
-func getAllDiscoveredIp() {
-
+func getAllDiscoveredIp() ([]string, error)  {
+  var allDiscoverIps []string
   scanner := ps.PingScanner{CIDR:cf.GetLocalIp()+"/24",PingOptions: []string{"-c1"},NumOfConcurrency:50}
-
   discoverIps, err := scanner.Scan()
 
   if err != nil {
     PrintMessage("Error When Disconver Host")
-  }
-
-  if len(discoverIps) == 0{
-    PrintMessage("No One IP alive")
+    return nil,err
   }
 
   if len(discoverIps) > 0{
       for _, ip := range discoverIps {
-        PrintMessage("Found Active IP : "+ip)
-    }
+	append(allDiscoverIps,ip)
+	}
   }
-
+   return allDiscoverIps,nil 
 }
 
-func runNetworkDiscoverScan(){
+func runReconnaisance() {
 
+	PrintMessage("Checking Administration Privilleges...")
 
+	if cf.IsRoot() {
+		PrintMessage("Your Privillege is Administration Privilleges")
+	} else {
+		PrintMessage("Your Privillege is not Administration Privilleges")
+	}
+	
+	PrintMessage("Getting Local Open Ports...")
 
+	allopenports := getAllOpenedPorts(cf.GetLocalIp())
+
+	if len(allopenports) > 0 {
+
+		for _, x := range allopenports {
+			PrintMessage("Opened Ports: "+x)
+		}
+
+	} else {
+		PrintMessage("There's no opened ports")
+	}
+
+	PrintMessage("Checking Discover IPs...")
+
+	discoveredIps, err := getAllDiscoveredIp()
+
+	if err != nil {
+		PrintErrorMessage("Error when Discover Ips")
+	}
+
+	if len(discoveredIps) > 0 {
+		for _, x := range discoveredIps {
+			PrintMessage("Discover IPs "+x)
+		}
+	} else {
+		PrintErrorMessage("Not Discovered Ips Host")
+	}	 				
 }
 
 func main(){
-   // Fill This
+	runReconnaisance()
 }
